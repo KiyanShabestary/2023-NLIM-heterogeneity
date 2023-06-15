@@ -8,14 +8,14 @@ LINK to source data
 
 The repository is organized as follow:
 
-`ext_data` Data obtained from external repositories/papers.
-`figures` Contains the figures that should be obtained after running the script processing source data.
-`output_table` Contains data that was generated after running the script processing source data.
-`Rdata` Contains compressed data to facilitate the flow between the scripts.
-`scripts` As the name implies.
-`source data` This folder should contain the source data generated throughout this study. Please download and add data from the link pasted above.
+`ext_data` Data obtained from external repositories/papers.  
+`figures` Contains the figures that should be obtained after running the script processing source data.  
+`output_table` Contains data that was generated after running the script processing source data.  
+`Rdata` Contains compressed data to facilitate the flow between the scripts.  
+`scripts` As the name implies.  
+`source data` This folder should contain the source data generated throughout this study. Please download and add data from the link pasted above.  
 
-**1. scRNAseq data analysis and UMAP plot generation**
+###1. scRNAseq data analysis and UMAP plot generation###
 
 This section is based on two main scripts with associated utilities (function file):
 
