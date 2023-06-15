@@ -15,7 +15,7 @@ The repository is organized as follow:
 `scripts` As the name implies.  
 `source data` This folder should contain the source data generated throughout this study. Please download and add data from the link pasted above.  
 
-##1. scRNAseq data analysis and UMAP plot generation##
+### 1. scRNAseq data analysis and UMAP plot generation ###
 
 This section is based on two main scripts with associated utilities (function file):
 
