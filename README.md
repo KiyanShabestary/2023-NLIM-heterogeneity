@@ -19,7 +19,7 @@ The repository is organized as follow:
 
 This section is based on two main scripts with associated utilities (function file):
 
-`scRNAseq_pre-processing_main.R` This script is used to pre-process scRNAseq data from Jackson et al. 2020. It is mostly based on the othors data analysis description. We added growth score generation from Airoldi et al 2008. For simplicity, compressed output of this file is already generated and available under `Rdata`
+`scRNAseq_pre-processing_main.R` This script is used to pre-process scRNAseq data from Jackson et al. 2020. It is mostly based on the othors data analysis description. We added growth score generation from Airoldi et al. 2008. For simplicity, compressed output of this file is already generated and available under `Rdata`
 
 `fig1b_main.R` This script generates the UMAP plot and growth score distribution shown in Fig. 1b.
 
