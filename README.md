@@ -15,13 +15,21 @@ The repository is organized as follow:
 `scripts` As the name implies.  
 `source data` This folder should contain the source data generated throughout this study. Please download and add data from the link pasted above.  
 
-### 1. scRNAseq data analysis and UMAP plot generation ###
+### Fig. 1. scRNAseq data analysis & UMAP plot generation / flow cytoemtry data / subpopRNAseq ###
 
-This section is based on two main scripts with associated utilities (function file):
+scRNAseq data workup is based on two main scripts with associated utilities (function file):
 
 `scRNAseq_pre-processing_main.R` This script is used to pre-process scRNAseq data from Jackson et al. 2020. It is mostly based on the othors data analysis description. We added growth score generation from Airoldi et al. 2008. For simplicity, compressed output of this file is already generated and available under `Rdata`
 
-`fig1b_main.R` This script generates the UMAP plot and growth score distribution shown in Fig. 1b.
+`fig1b_main.R` This script generates the UMAP plot and growth score distribution shown in Fig. 1b. It also generates genes that are differentially regulated across clusters as well as mean gene intensities for each cluster under `output_table`
+
+`fig1cde.R` This script generates flow cytometry plot for Fig. 1c, 1d and 1e
+
+`fig1f.R` This script generates the volcano plot of subpopRNAseq
+
+### Fig. 2.  ###
+
+
 
 
 
