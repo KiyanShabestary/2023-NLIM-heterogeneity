@@ -19,7 +19,7 @@ The repository is organized as follow:
 
 scRNAseq data workup is based on two main scripts with associated utilities (function file):
 
-`scRNAseq_pre-processing_main.R` This script is used to pre-process scRNAseq data from Jackson et al. 2020. It is mostly based on the othors data analysis description. We added growth score generation from Airoldi et al. 2008. For simplicity, compressed output of this file is already generated and available under `Rdata`.
+`scRNAseq_pre-processing_main.R` This script is used to pre-process scRNAseq data from Jackson et al. 2020. It is mostly based on the othors data analysis description. We added growth score generation from Airoldi et al. 2008. For simplicity, compressed output of this file has already been generated and available under `Rdata`.
 
 `fig1b_main.R` This script generates the UMAP plot and growth score distribution shown in Fig. 1b. It also generates genes that are differentially regulated across clusters as well as mean gene intensities for each cluster under `output_table`.
 
@@ -29,7 +29,7 @@ scRNAseq data workup is based on two main scripts with associated utilities (fun
 
 ### Fig. 2. Flow cytometry data / Growth curve / Chronological lifespan measurement ###
 
-`fig2a.R` This script generates the bimodality score. Note that it is divided in two parts. First part calculated the bimodality scores using flexmix. Only NLIM is shown for simplicity. However, due to the algorithm that can be stuck at local optima, flexmix was performed with multiple initialization (different seeds) and glocal optima results stored under `output_table`. The second part plots the scores for NLIM and NREP from the summary file in `output_table`.
+`fig2a.R` This script generates the bimodality score. Note that it is divided in two parts. First part calculated the bimodality scores using flexmix. However, due to the algorithm that can be stuck at local optima, flexmix was performed with multiple initialization (different seeds) and glocal optima results stored under `output_table`. For simplicity, part1 is shown for NLIM only and the summary file has already been generated for this step. The second part plots the scores for NLIM and NREP from the summary file in `output_table`.
 
 
 
