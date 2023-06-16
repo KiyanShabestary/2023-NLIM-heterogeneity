@@ -29,8 +29,18 @@ scRNAseq data workup is based on two main scripts with associated utilities (fun
 
 ### Fig. 2. Flow cytometry data / Growth curve / Chronological lifespan measurement ###
 
-`fig2a.R` This script generates the bimodality score. Note that it is divided in two parts. First part calculated the bimodality scores using flexmix. However, due to the algorithm that can be stuck at local optima, flexmix was performed with multiple initialization (different seeds) and glocal optima results stored under `output_table`. For simplicity, part1 is shown for NLIM only and the summary file has already been generated for this step. The second part plots the scores for NLIM and NREP from the summary file in `output_table`.
+`fig2a.R` This script generates the bimodality score. Note that it is divided in two parts. First part calculated the bimodality scores using flexmix. However, due to the algorithm that can be stuck at local optima, flexmix was performed with multiple initialization (different seeds) and glocal optima results stored under `output_table`. For simplicity, part1 is shown for NLIM only and the summary file has already been generated for this step. The second part plots the scores for NLIM and NREP from the summary file (NLIM and NREP)`bimodality_scores_HO_HLM_triplicates.rds` in `Rdata`.
 
+`fig2b.R` This script generates the maximal growth rate. Export those values as a max growth file `230112_growth_params_by_group_NLIM.Rds` and `230118_growth_params_by_group_NREP.Rds` within `Rdata`.
 
+`fig2c.R` This script joins the metrics obtained from `fig2a.R` and `fig2b.R` and computes the correlation between the two (tradeoff). Additionally, it generates 2 out of the 3 subplots of figS13 displaying correlations in bimodality and maximal growth for NLIM vs NREP.
+
+`fig2d.R` This script plots population survival rates.
+
+`fig2ef.R` This script displays subpop survival rate over time (fig2e) for a selected condition and after 30d for all tested conditions. At the end significance are calculated. Script can be modified to display bar chart of survival rates for 10d or 20d. Subpopulation survival rates are saved in `230323_CLS_subpop.Rds` within `Rdata`.
+
+`fig2gh.R` This script displays subpopulation specific growth resumption in rich (YPD) media and calculates lag time to reach two divisions for each subpopulation. Subpopulation lag times are saved in `230222_t_lags.Rds` within `Rdata`.
+
+`fig2i.R` This scripts reads data generate as part of `fig2ef.R` and `fig2gh.R`. Note that this script can be modified to display tradeoff with survival rates after 20d or 30d.
 
 
