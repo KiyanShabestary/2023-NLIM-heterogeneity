@@ -1,10 +1,10 @@
 # 2023-NLIM-heterogeneity
 
 This repository contains scripts intended to reproduce the main figures in Shabestary et al. 2023. 
-LINK to article
+*LINK to article*
 
-Download source data from the link below and place in the source data folder within this repository. 
-LINK to source data
+Download source data from the link below and place its content in the source data folder within this repository. 
+*LINK to source data*
 
 The repository is organized as follow:
 
