@@ -10,8 +10,8 @@ The repository is organized as follow:
 
 `ext_data` Data obtained from external repositories/papers.  
 `figures` Contains the figures that should be obtained after running the script processing source data.  
-`output_table` Contains data that was generated after running the script processing source data.  
-`Rdata` Contains compressed data to facilitate the flow between the scripts.  
+`output_table` Contains tabulated data that was generated after running the script processing source data.  
+`Rdata` Contains compressed data to facilitate data flow between scripts.  
 `scripts` As the name implies.  
 `source data` This folder should contain the source data generated throughout this study. Please download and add data from the link pasted above.  
 
