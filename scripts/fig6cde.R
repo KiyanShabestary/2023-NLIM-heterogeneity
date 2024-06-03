@@ -159,6 +159,19 @@ return_Rmixmod <- function(data,model){
 trim_below <- function(dataframe,trim_time){
   dataframe <- dataframe %>% filter(Time>trim_time)
 }
+pull_sc_values <- function(file_names){
+  "Pull data into a single dataframe per condition"
+  
+  file_name <- file.path("../data",file_names$file)
+  print(file_name)
+  data <- read.csv(file = file_name)
+  
+  data$timepoint <- c(rep(file_names$timepoint,nrow(data)))
+  data$condition <- c(rep(file_names$condition,nrow(data)))  
+  data$replicate <- c(rep(file_names$replicate,nrow(data))) 
+  
+  data
+}
 
 # Comparing two conditions ------------------------------------------------
 
@@ -454,5 +467,317 @@ ggplot(data, aes(x=FSC.H)) +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())#legend.position = "none"
 
+# ATP across nitrogen sources ---------------------------------------------
+
+# Create metadata
+
+# Pull location for each file and convert into a list
+file_names <- read.csv('helper_last_runs_yATP.csv') 
+file_names <- file_names %>% split(., seq(nrow(.)), drop=T)
+
+# Pull single cell parameters and store in single meta dataframe
+metadata <- lapply(file_names,pull_sc_values)
+metadata <- bind_rows(metadata)
+
+metadata$ATP.H <- metadata$VL2.H/metadata$VL1.H
+
+# Plotting 
+
+selected_data <- metadata %>% filter(timepoint=="4h")
+
+colour_map = c(inferno(10)[2],inferno(10)[6],inferno(10)[9])
+
+p<- ggplot(selected_data, aes(x=FSC.H, colour = replicate)) + 
+  geom_density(aes(fill=NULL), size=1, alpha=.4)+ #after_stat(scaled)
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                labels = trans_format("log10", math_format(10^.x)),
+                limits= c(300, 500000))+
+  #ylim(0, 4.2)+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  ylab("Density")+
+  xlab("Cell size (FSC-H)")+
+  theme_bw()+
+  annotation_logticks(base = 10,sides = "b")+
+  theme(panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_line(color = "black"),
+        legend.position = "none")
+
+p + facet_wrap(~ condition, ncol=5)
+
+
+p<- ggplot(selected_data, aes(x=ATP.H, colour = replicate)) + 
+  geom_density(aes(fill=NULL), size=1, alpha=.4)+ #after_stat(scaled)
+  xlim(0, 4.2)+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  ylab("Density")+
+  xlab("ATP sensor output (VL2-H/VL1-H)")+
+  theme_bw()+
+  theme(panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_line(color = "black"),
+        legend.position = "none")
+
+p + facet_wrap(~ condition, ncol=5)
+
+p <- ggplot(selected_data, aes(x=FSC.H,y=ATP.H,colour=replicate)) + 
+  geom_density_2d(bins=10)+
+  ylab("ATP sensor output (VL2-H/VL1-H)")+
+  xlab("Cell size (FSC.H)")+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  theme_bw()+
+  ylim(1, 3.5)+
+  theme(text = element_text(size=10),
+        panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        axis.ticks = element_line(color = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) #legend.position = "none"
+
+p + facet_wrap(vars(condition), ncol=5)
+
+ggsave("../figures/Supp_ATP_scatter_all_conditions.svg", width = 7, height = 5, bg='transparent')
+
+
+
+# Zoom on a specific case without density function
+
+zoomed_data <- metadata %>% filter(timepoint=="4h" & condition=="Leu")
+
+ggplot(zoomed_data, aes(x=FSC.H,y=ATP.H,colour=replicate)) + 
+  geom_point(alpha=0.2)+
+  ylab("ATP sensor output (VL2-H/VL1-H)")+
+  xlab("Cell size (FSC.H)")+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  theme_bw()+
+  ylim(0.5, 5.0)+
+  theme(text = element_text(size=10),
+        panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        axis.ticks = element_line(color = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none")
+
+#Adding subpopulation classification
+
+selected_data <- metadata %>% filter(timepoint=="4h") %>% 
+  filter(ATP.H>0.5 & ATP.H<5.0) %>%
+  dplyr::select(FSC.H,ATP.H)
+selected_data.clustered <- perform_clustering_Rmixmod(selected_data,"Gaussian_pk_L_I")
+selected_data.clustered$condition <- selected_data$condition # Add conditions vector back
+
+# Cluster on whole timepoint and then plot
+zoomed_data.clustered <- selected_data.clustered %>% filter(condition=="Trp")
+
+ggplot(zoomed_data.clustered, aes(x=FSC.H,y=ATP.H,colour=as.factor(classification))) + 
+  geom_point(alpha=0.2)+
+  ylab("ATP sensor output (VL2-H/VL1-H)")+
+  xlab("Cell size (FSC.H)")+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  theme_bw()+
+  ylim(0.5, 5.0)+
+  theme(text = element_text(size=10),
+        panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        axis.ticks = element_line(color = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none")
+
+# Population bar chart 
+
+
+metadata_individual_points <- metadata %>% filter(ATP.H>1 & ATP.H<5.0) %>%
+  filter(condition!="YPD") %>%
+  group_by(condition,timepoint,replicate) %>% 
+  dplyr::summarize(
+    ATP.H = mean(ATP.H),
+  )
+
+metadata_grouped <- metadata_individual_points %>%
+  group_by(condition,timepoint) %>% 
+  dplyr::summarize(
+    ATP.mean = mean(ATP.H),
+    ATP.sd = sd(ATP.H),
+  )
+
+colour_map = c(inferno(10)[9],inferno(10)[2])
+
+# Plot population ATP levels
+p <- ggplot(metadata_grouped , aes(x=condition, y=ATP.mean))+
+  geom_bar( aes(x= reorder(condition, desc(ATP.mean)), y=ATP.mean), stat="identity", alpha=0.8, width=0.7)+
+  geom_point(data=metadata_individual_points, aes(x=condition,y=ATP.H),size=1, alpha=1, colour="grey")+
+  scale_colour_manual(values=colour_map)+
+  scale_fill_manual(values=colour_map)+
+  geom_errorbar(aes(ymin=ATP.mean-ATP.sd, ymax=ATP.mean+ATP.sd), width=.3, color='black')+ 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=0.5),
+        axis.title.x=element_blank(),
+        panel.background =  element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none")
+
+p + facet_grid(~timepoint)
+
+
+
+# FBP across nitrogen sources ---------------------------------------------
+
+# Create metadata 
+
+# Pull location for each file and convert into a list
+file_names <- read.csv('helper_last_runs_FBP.csv') 
+file_names <- file_names %>% split(., seq(nrow(.)), drop=T)
+
+# Pull single cell parameters and store in single meta dataframe
+metadata <- lapply(file_names,pull_sc_values)
+metadata <- bind_rows(metadata)
+
+metadata$FBP.H <- metadata$YL2.H/metadata$BL1.H
+
+# Plotting 
+
+selected_data <- metadata %>% filter(timepoint=="4h")
+selected_data <- metadata %>% filter(timepoint=="4h" | condition=="YPD")
+
+colour_map = c(inferno(10)[2],inferno(10)[6],inferno(10)[9])
+
+p<- ggplot(selected_data, aes(x=FSC.H, colour = replicate)) + 
+  geom_density(aes(fill=NULL), size=1, alpha=.4)+ #after_stat(scaled)
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                labels = trans_format("log10", math_format(10^.x)),
+                limits= c(300, 500000))+
+  ylim(0, 4.2)+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  ylab("Density")+
+  xlab("Cell size (FSC-H)")+
+  theme_bw()+
+  annotation_logticks(base = 10,sides = "b")+
+  theme(panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_line(color = "black"),
+        legend.position = "none")
+
+p + facet_wrap(~ condition, ncol=5)
+
+
+p<- ggplot(selected_data, aes(x=FBP.H, colour = replicate)) + 
+  geom_density(aes(fill=NULL), size=1, alpha=.4)+ #after_stat(scaled)
+  xlim(0, 20)+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  ylab("Density")+
+  xlab("FBP sensor output (YL2-H/BL1-H)")+
+  theme_bw()+
+  theme(panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_line(color = "black"),
+        legend.position = "none")
+
+p + facet_wrap(~ condition, ncol=5)
+
+#Scatter FBP, cell size
+p <- ggplot(selected_data, aes(x=FSC.H,y=FBP.H,colour=replicate)) + 
+  geom_density_2d(bins=10)+
+  ylab("FBP sensor output (YL2-H/BL1-H)")+
+  xlab("Cell size (FSC.H)")+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  theme_bw()+
+  ylim(4.5, 13)+
+  theme(text = element_text(size=10),
+        panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        axis.ticks = element_line(color = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none")
+
+p + facet_wrap(vars(condition), ncol=4)
+
+ggsave("../figures/Supp_FBP_scatter_all_conditions.svg", width = 7, height = 5, bg='transparent')
+
+
+zoomed_data <- metadata %>% filter(timepoint=="4h" & condition=="Gln")
+
+ggplot(zoomed_data, aes(x=FSC.H,y=FBP.H,colour=replicate)) + 
+  geom_point(alpha=0.2)+
+  ylab("FBP sensor output (YL2-H/BL1-H)")+
+  xlab("Cell size (FSC.H)")+
+  scale_fill_manual(values=colour_map)+
+  scale_colour_manual(values=colour_map)+
+  theme_bw()+
+  ylim(4.5, 13.0)+
+  theme(text = element_text(size=10),
+        panel.background =  element_blank(),
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        axis.ticks = element_line(color = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none")
+
+
+
+
+# Population bar chart 
+
+
+metadata_individual_points <- metadata %>% filter(FBP.H>5 & FBP.H<20) %>%
+  #filter(condition!="YPD") %>%
+  group_by(condition,timepoint,replicate) %>% 
+  dplyr::summarize(
+    FBP.H = mean(FBP.H),
+  )
+
+metadata_grouped <- metadata_individual_points %>%
+  group_by(condition,timepoint) %>% 
+  dplyr::summarize(
+    FBP.mean = mean(FBP.H),
+    FBP.sd = sd(FBP.H),
+  )
+
+colour_map = c(inferno(10)[9],inferno(10)[2])
+
+# Plot population ATP levels
+p <- ggplot(metadata_grouped , aes(x=condition, y=FBP.mean))+
+  geom_bar( aes(x= reorder(condition, desc(FBP.mean)), y=FBP.mean), stat="identity", alpha=0.8, width=0.7)+
+  geom_point(data=metadata_individual_points, aes(x=condition,y=FBP.H),size=1, alpha=1, colour="grey")+
+  scale_colour_manual(values=colour_map)+
+  scale_fill_manual(values=colour_map)+
+  geom_errorbar(aes(ymin=FBP.mean-FBP.sd, ymax=FBP.mean+FBP.sd), width=.3, color='black')+ 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=0.5),
+        axis.title.x=element_blank(),
+        panel.background =  element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none")
+
+p + facet_grid(~timepoint)
 
 
