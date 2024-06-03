@@ -55,7 +55,7 @@ TF nuclear intensity computed from segmented microscopy images and BFP/GFP overl
 
 ### Fig. 6. In vivo ATP and FBP measurement using sensors ###
 
-`fig6cde.R` creates all the sensor plots as well as associated supplementaries using Rmixmod for cluster assignment. This also contains the scripts to perform cell size/sensor output analysis across all nitrogen conditions (Supplemenraty Fig. 25). 
+`fig6cde.R` creates all the sensor plots as well as associated supplementaries using Rmixmod for cluster assignment. This also contains the scripts to perform cell size/sensor output analysis across all nitrogen conditions (Supplementary Fig. 25). 
 
 
 
