@@ -1,6 +1,6 @@
 # 2023-NLIM-heterogeneity
 
-This repository contains scripts intended to reproduce the main figures in Shabestary et al. 2023. 
+This repository contains scripts intended to reproduce the main figures in Shabestary et al. 2024. 
 *LINK to article*
 
 Download source data from the link below and place its content in the source data folder within this repository. 
@@ -39,7 +39,7 @@ Helper script used for Fig. 3b plotting is available upon request.
 
 `fig4b.R` generates the maximal growth rate. Export those values as a max growth file `230112_growth_params_by_group_NLIM.Rds` and `230118_growth_params_by_group_NREP.Rds` within `Rdata`.
 
-`fig4c.R` joins the metrics obtained from `fig4a.R` and `fig4b.R` and computes the correlation between the two (tradeoff). Additionally, it generates 2 out of the 3 subplots displaying correlations in bimodality and maximal growth for NLIM vs NREP (Extended Data Fig. 20a and 20b).
+`fig4c.R` joins the metrics obtained from `fig4a.R` and `fig4b.R` and computes the correlation between the two (tradeoff). Additionally, it generates 2 out of the 3 subplots displaying correlations in bimodality and maximal growth for NLIM vs NREP (Supplementary Fig. 20a and 20b).
 
 `fig4de.R` displays subpopulation survival rate over time (Fig. 4d) for a selected condition and after 30d for all tested conditions (Fig. 4d). Statistical analysis is included at the end of this script. Script can be modified to display bar chart of survival rates for 10d or 20d. Subpopulation survival rates are saved in `230323_CLS_subpop.Rds` within `Rdata`.
 
@@ -55,7 +55,7 @@ TF nuclear intensity computed from segmented microscopy images and BFP/GFP overl
 
 ### Fig. 6. In vivo ATP and FBP measurement using sensors ###
 
-`fig6abc.R` creates all the sensor plots as well as associated supplementaries using Rmixmod for cluster assignment.  
+`fig6cde.R` creates all the sensor plots as well as associated supplementaries using Rmixmod for cluster assignment. This also contains the scripts to perform cell size/sensor output analysis across all nitrogen conditions (Supplemenraty Fig. 25). 
 
 
 
