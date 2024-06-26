@@ -177,20 +177,20 @@ pull_sc_values <- function(file_names){
 
 ########### yAT1.03 VL2/VL1 ##########
 
-data.cond1 <- read.csv(file = "../source_data/fig6abc/1430_A1_yATP_NLIMPRO.csv") #1hr post-shift
-data.cond2 <- read.csv(file = "../source_data/fig6abc/1430_A3_yATP_NLIMGLN.csv")
+data.cond1 <- read.csv(file = "../source_data/fig6cde/1430_A1_yATP_NLIMPRO.csv") #1hr post-shift
+data.cond2 <- read.csv(file = "../source_data/fig6cde/1430_A3_yATP_NLIMGLN.csv")
 
-data.cond1 <- read.csv(file = "../source_data/fig6abc/1530_C2_yATP_NLIMPRO.csv") #2hr post-shift
-data.cond2 <- read.csv(file = "../source_data/fig6abc/1530_C4_yATP_NLIMGLN.csv")
+data.cond1 <- read.csv(file = "../source_data/fig6cde/1530_C2_yATP_NLIMPRO.csv") #2hr post-shift
+data.cond2 <- read.csv(file = "../source_data/fig6cde/1530_C4_yATP_NLIMGLN.csv")
 
-data.cond1 <- read.csv(file = "../source_data/fig6abc/1730_E1_yATP_NLIMPRO.csv") #4hr post-shift
-data.cond2 <- read.csv(file = "../source_data/fig6abc/1730_E3_yATP_NLIMGLN.csv")
+data.cond1 <- read.csv(file = "../source_data/fig6cde/1730_E1_yATP_NLIMPRO.csv") #4hr post-shift
+data.cond2 <- read.csv(file = "../source_data/fig6cde/1730_E3_yATP_NLIMGLN.csv")
 
-data.cond1 <- read.csv(file = "../source_data/fig6abc/1930_G1_yATP_NLIMPRO.csv") #6hr post-shift
-data.cond2 <- read.csv(file = "../source_data/fig6abc/1930_G3_yATP_NLIMGLN.csv")
+data.cond1 <- read.csv(file = "../source_data/fig6cde/1930_G1_yATP_NLIMPRO.csv") #6hr post-shift
+data.cond2 <- read.csv(file = "../source_data/fig6cde/1930_G3_yATP_NLIMGLN.csv")
 
-data.cond1 <- read.csv(file = "../source_data/fig6abc/2130_A1_yATP_NLIMPRO.csv") #8hr post-shift
-data.cond2 <- read.csv(file = "../source_data/fig6abc/2130_A3_yATP_NLIMGLN.csv")
+data.cond1 <- read.csv(file = "../source_data/fig6cde/2130_A1_yATP_NLIMPRO.csv") #8hr post-shift
+data.cond2 <- read.csv(file = "../source_data/fig6cde/2130_A3_yATP_NLIMGLN.csv")
 
 condition <- c(rep('NLIMPRO',nrow(data.cond1)),
                rep('NLIMGLN',nrow(data.cond2)))
@@ -222,16 +222,16 @@ ggsave("../figures/fig6a_contour_2h_ATP_PRO_GLN_rep2_ylim_4_5.svg", width = 5, h
 ########### FBP YL2/BL1 ##########
 
 # 4hr post-shift
-data.cond1 <- read.csv(file = "../source_data/fig6abc/1650_A9_FBPs1_NLIMPRO.csv") %>% trim_below(10)
-data.cond2 <- read.csv(file = "../source_data/fig6abc/1650_A11_FBPs1_NLIMGLN.csv") %>% trim_below(10)
+data.cond1 <- read.csv(file = "../source_data/fig6cde/1650_A9_FBPs1_NLIMPRO.csv") %>% trim_below(10)
+data.cond2 <- read.csv(file = "../source_data/fig6cde/1650_A11_FBPs1_NLIMGLN.csv") %>% trim_below(10)
 
 # 6hr post-shift
-data.cond1 <- read.csv(file = "../source_data/fig6abc/1850_C9_FBPs1_NLIMPRO.csv") %>% trim_below(10)
-data.cond2 <- read.csv(file = "../source_data/fig6abc/1850_C11_FBPs1_NLIMGLN.csv") %>% trim_below(10)
+data.cond1 <- read.csv(file = "../source_data/fig6cde/1850_C9_FBPs1_NLIMPRO.csv") %>% trim_below(10)
+data.cond2 <- read.csv(file = "../source_data/fig6cde/1850_C11_FBPs1_NLIMGLN.csv") %>% trim_below(10)
 
 # 8hr post-shift
-data.cond1 <- read.csv(file = "../source_data/fig6abc/2050_G9_FBPs1_NLIMPRO.csv") %>% trim_below(13)
-data.cond2 <- read.csv(file = "../source_data/fig6abc/2050_G11_FBPs1_NLIMGLN.csv") %>% trim_below(13)
+data.cond1 <- read.csv(file = "../source_data/fig6cde/2050_G9_FBPs1_NLIMPRO.csv") %>% trim_below(13)
+data.cond2 <- read.csv(file = "../source_data/fig6cde/2050_G11_FBPs1_NLIMGLN.csv") %>% trim_below(13)
 
 condition <- c(rep('NLIMPRO',nrow(data.cond1)),
                rep('NLIMGLN',nrow(data.cond2)))
@@ -250,10 +250,10 @@ plot_contour_2c(data.master,"FSC.H","FBPs1.H","condition","Cell size (FSC-H)","F
 
 # Multiple timepoints ATP -------------------------------------------------
 
-data.2h <- read.csv(file = "../source_data/fig6abc/1530_C1_yATP_NLIMPRO.csv") #2h
-data.4h <- read.csv(file = "../source_data/fig6abc/1730_E1_yATP_NLIMPRO.csv") #4h
-data.6h <- read.csv(file = "../source_data/fig6abc/1930_G1_yATP_NLIMPRO.csv") #6h
-data.8h <- read.csv(file = "../source_data/fig6abc/2130_A1_yATP_NLIMPRO.csv") #8h
+data.2h <- read.csv(file = "../source_data/fig6cde/1530_C1_yATP_NLIMPRO.csv") #2h
+data.4h <- read.csv(file = "../source_data/fig6cde/1730_E1_yATP_NLIMPRO.csv") #4h
+data.6h <- read.csv(file = "../source_data/fig6cde/1930_G1_yATP_NLIMPRO.csv") #6h
+data.8h <- read.csv(file = "../source_data/fig6cde/2130_A1_yATP_NLIMPRO.csv") #8h
 
 data.2h$yATP.H <- data.2h$VL2.H/data.2h$VL1.H
 data.4h$yATP.H <- data.4h$VL2.H/data.4h$VL1.H
@@ -363,9 +363,9 @@ ggplot(data, aes(x=FSC.H)) +
 
 # Multiple timepoints FBP -------------------------------------------------
 
-data.4h <- read.csv(file = "../source_data/fig6abc/1650_A9_FBPs1_NLIMPRO.csv") %>% trim_below(10) #4h
-data.6h <- read.csv(file = "../source_data/fig6abc/1850_C9_FBPs1_NLIMPRO.csv") %>% trim_below(13) #6h
-data.8h <- read.csv(file = "../source_data/fig6abc/2050_G9_FBPs1_NLIMPRO.csv") %>% trim_below(13) #8h
+data.4h <- read.csv(file = "../source_data/fig6cde/1650_A9_FBPs1_NLIMPRO.csv") %>% trim_below(10) #4h
+data.6h <- read.csv(file = "../source_data/fig6cde/1850_C9_FBPs1_NLIMPRO.csv") %>% trim_below(13) #6h
+data.8h <- read.csv(file = "../source_data/fig6cde/2050_G9_FBPs1_NLIMPRO.csv") %>% trim_below(13) #8h
 
 data.4h$FBPs1.H <- data.4h$YL2.H/data.4h$BL1.H
 data.6h$FBPs1.H <- data.6h$YL2.H/data.6h$BL1.H
