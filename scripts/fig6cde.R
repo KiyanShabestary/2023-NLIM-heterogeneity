@@ -162,7 +162,7 @@ trim_below <- function(dataframe,trim_time){
 pull_sc_values <- function(file_names){
   "Pull data into a single dataframe per condition"
   
-  file_name <- file.path("../source_data/fig6cde/",file_names$file)
+  file_name <- file.path("../source_data/fig6cde",file_names$file)
   print(file_name)
   data <- read.csv(file = file_name)
   
